@@ -11,21 +11,21 @@ module.exports = function(app) {
 
   // api ---------------------------------------------------------------------
   // get all todos
-  app.get(routePreFix, function(req, res) {
+  app.get(routePreFix + '/post', function(req, res) {
 
     // use mongoose to get all todos in the database
-    Todo.find(function(err, todos) {
+    post.find(function(err, posts) {
 
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err)
         res.send(err)
 
-      res.json(todos); // return all todos in JSON format
+      res.json(posts); // return all todos in JSON format
     });
   });
 
   // create todo and send back all todos after creation
-  app.post(routePreFix, function(req, res) {
+  app.post(routePreFix + '/post', function(req, res) {
 
     // create a todo, information comes from AJAX request from Angular
     post.create({
@@ -36,7 +36,7 @@ module.exports = function(app) {
         res.send(err);
 
       // get and return all the todos after you create another
-      Todo.find(function(err, todos) {
+      post.find(function(err, todos) {
         if (err)
           res.send(err)
         res.json(todos);
@@ -46,7 +46,7 @@ module.exports = function(app) {
   });
 
   // delete a todo
-  app.delete(routePreFix + '/:todo_id', function(req, res) {
+  app.delete(routePreFix + '/post/:post_id', function(req, res) {
     post.remove({
       _id: req.params.todo_id
     }, function(err, todo) {
@@ -54,7 +54,7 @@ module.exports = function(app) {
         res.send(err);
 
       // get and return all the todos after you create another
-      Todo.find(function(err, todos) {
+      post.find(function(err, todos) {
         if (err)
           res.send(err)
         res.json(todos);
