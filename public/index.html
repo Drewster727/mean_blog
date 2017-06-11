@@ -1,80 +1,190 @@
-<!-- ASSIGN OUR ANGULAR MODULE -->
-<html ng-app="bogoTodo">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <!-- META -->
+
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Optimize mobile viewport -->
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-  <title>Node/Angular Todo App</title>
+  <title>Mean Blog</title>
 
-  <!-- SCROLLS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-  <!-- load bootstrap -->
-  <style>
-    html {
-      overflow-y: scroll;
-    }
+  <!-- Bootstrap Core CSS -->
+  <link href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    body {
-      padding-top: 50px;
-    }
+  <!-- Theme CSS -->
+  <link href="css/mean-blog.css" rel="stylesheet">
 
-    #todo-list {
-      margin-bottom: 30px;
-    }
-  </style>
-
-  <!-- SPELLS -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <!-- load jquery -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-  <!-- load angular -->
-  <script src="core.js"></script>
-
+  <!-- Custom Fonts -->
+  <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
-<!-- SET THE CONTROLLER AND GET ALL TODOS -->
 
-<body ng-controller="mainController">
-  <div class="container">
+<body>
 
-    <!-- HEADER AND TODO COUNT -->
-    <div class="jumbotron text-center">
-      <h1>My Todo List <span class="label label-info">{{ todos.length }}</span></h1>
-    </div>
-
-    <!-- TODO LIST -->
-    <div id="todo-list" class="row">
-      <div class="col-sm-4 col-sm-offset-4">
-
-        <!-- LOOP OVER THE TODOS IN $scope.todos -->
-        <div class="checkbox" ng-repeat="todo in todos">
-          <label>
-                        <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
-                    </label>
-        </div>
-
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header page-scroll">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
       </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li>
+            <a href="about.html">About</a>
+          </li>
+          <li>
+            <a href="post.html">Sample Post</a>
+          </li>
+          <li>
+            <a href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
+    <!-- /.container -->
+  </nav>
 
-    <!-- FORM TO CREATE TODOS -->
-    <div id="todo-form" class="row">
-      <div class="col-sm-8 col-sm-offset-2 text-center">
-        <form>
-          <div class="form-group">
-
-            <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-            <input type="text" class="form-control input-lg text-center" placeholder="I want to detect/capture dark matter" ng-model="formData.text">
+  <!-- Page Header -->
+  <!-- Set your background image for this header on the line below. -->
+  <header class="intro-header" style="background-image: url('img/home-bg.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <div class="site-heading">
+            <h1>Clean Blog</h1>
+            <hr class="small">
+            <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
           </div>
-
-          <!-- createToDo() WILL CREATE NEW TODOS -->
-          <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
-        </form>
+        </div>
       </div>
     </div>
+  </header>
 
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-preview">
+          <a href="post.html">
+            <h2 class="post-title">
+                            Man must sexplore, and this is exploration at its greatest
+                        </h2>
+            <h3 class="post-subtitle">
+                            Problems look mighty small from 150 miles up
+                        </h3>
+          </a>
+          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
+        </div>
+        <hr>
+        <div class="post-preview">
+          <a href="post.html">
+            <h2 class="post-title">
+                            I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
+                        </h2>
+          </a>
+          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 18, 2014</p>
+        </div>
+        <hr>
+        <div class="post-preview">
+          <a href="post.html">
+            <h2 class="post-title">
+                            Science has not yet mastered prophecy
+                        </h2>
+            <h3 class="post-subtitle">
+                            We predict too much for the next year and yet far too little for the next ten.
+                        </h3>
+          </a>
+          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</p>
+        </div>
+        <hr>
+        <div class="post-preview">
+          <a href="post.html">
+            <h2 class="post-title">
+                            Failure is not an option
+                        </h2>
+            <h3 class="post-subtitle">
+                            Many say exploration is part of our destiny, but it’s actually our duty to future generations.
+                        </h3>
+          </a>
+          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on July 8, 2014</p>
+        </div>
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
+          <li class="next">
+            <a href="#">Older Posts &rarr;</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <ul class="list-inline text-center">
+            <li>
+              <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+            </li>
+            <li>
+              <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+            </li>
+            <li>
+              <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Your Website 2017</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="libs/jquery/dist/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <!-- Contact Form JavaScript -->
+  <!-- <script src="js/jqBootstrapValidation.js"></script> -->
+  <!-- <script src="js/contact_me.js"></script> -->
+
+  <!-- Theme JavaScript -->
+  <!-- <script src="js/clean-blog.min.js"></script> -->
 
 </body>
 
