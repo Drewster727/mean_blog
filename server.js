@@ -27,5 +27,11 @@ app.use(methodOverride());
 require('./app/routes.js')(app);
 
 // listen (start app with node server.js) ======================================
-app.listen(port);
+app.listen(port, function() {
+    console.log('Listening on port %d', port);
+
+    if (process.send) {
+        process.send('online');
+    }
+});
 console.log("App listening on port : " + port);

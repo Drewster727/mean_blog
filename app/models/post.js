@@ -4,6 +4,11 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('post', {
+  title: String,
   text: String,
+  created: Date,
+  createdby: String,
+  modified: Date,
+  modifiedby: String,
   done: Boolean
 });

@@ -149,13 +149,17 @@ hr.small {
 }
 
 .intro-header {
-  background-color: #777777;
+  /*background-color: #777777;
   background: no-repeat center center;
   background-attachment: scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
-  -o-background-size: cover;
+  -o-background-size: cover;*/
+  background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url('/img/home-bg.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   margin-bottom: 50px;
 }
 

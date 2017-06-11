@@ -34,7 +34,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="index.html">New Post</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -45,9 +45,6 @@
           </li>
           <li>
             <a href="about.html">About</a>
-          </li>
-          <li>
-            <a href="post.html">Sample Post</a>
           </li>
           <li>
             <a href="contact.html">Contact</a>
@@ -61,14 +58,14 @@
 
   <!-- Page Header -->
   <!-- Set your background image for this header on the line below. -->
-  <header class="intro-header" style="background-image: url('img/home-bg.jpg')">
+  <header class="intro-header">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           <div class="site-heading">
-            <h1>Clean Blog</h1>
+            <h1>Mean Blog</h1>
             <hr class="small">
-            <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
+            <span class="subheading">Because being nice is overrated</span>
           </div>
         </div>
       </div>
@@ -90,40 +87,7 @@
           </a>
           <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
         </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-                            I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-                        </h2>
-          </a>
-          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 18, 2014</p>
-        </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-                            Science has not yet mastered prophecy
-                        </h2>
-            <h3 class="post-subtitle">
-                            We predict too much for the next year and yet far too little for the next ten.
-                        </h3>
-          </a>
-          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</p>
-        </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-                            Failure is not an option
-                        </h2>
-            <h3 class="post-subtitle">
-                            Many say exploration is part of our destiny, but it’s actually our duty to future generations.
-                        </h3>
-          </a>
-          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on July 8, 2014</p>
-        </div>
-        <hr>
+
         <!-- Pager -->
         <ul class="pager">
           <li class="next">
@@ -173,6 +137,9 @@
     </div>
   </footer>
 
+  <!-- browser-sync -->
+  <!-- <script async src='http://localhost:8888/browser-sync/browser-sync-client.js?v=2.18.12'></script> -->
+
   <!-- jQuery -->
   <script src="libs/jquery/dist/jquery.min.js"></script>
 
@@ -186,6 +153,11 @@
   <!-- Theme JavaScript -->
   <!-- <script src="js/clean-blog.min.js"></script> -->
 
+  <script id="__bs_script__">
+    //<![CDATA[
+    document.write("<script async src='http://HOST:8889/browser-sync/browser-sync-client.js?v=2.18.12'><\/script>".replace("HOST", location.hostname));
+    //]]>
+    </script>
 </body>
 
 </html>
