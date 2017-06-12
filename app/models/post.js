@@ -7,6 +7,15 @@ module.exports = mongoose.model('post', {
   subtitle: String,
   text: String,
   tags: [],
+  votescore: Number,
+  voters: [{
+    name: String,
+    vote: {
+      type: Number,
+      min: -1,
+      max: 1
+    }
+  }],
   created: {
     type: Date,
     default: Date.now

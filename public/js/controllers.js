@@ -1,6 +1,6 @@
 var app = angular.module('meanBlog.controllers', []);
 
-app.controller('MainController', function($scope, PageService, PostFactory) {
+app.controller('MainController', function($scope, PageFactory, PostFactory) {
   $scope.posts = [];
 
   $scope.getPosts = function() {
@@ -10,8 +10,12 @@ app.controller('MainController', function($scope, PageService, PostFactory) {
     });
   };
 
+  $scope.vote = function(postId, vote) {
+    PostFactory.vote(postId, 'drew', vote);
+  };
+
   $scope.getPosts();
-}).controller('PostController', function($scope, $routeParams, PageService, PostFactory) {
+}).controller('PostController', function($scope, $routeParams, PageFactory, PostFactory) {
   $scope.post = {};
 
   $scope.getPost = function(id) {
@@ -19,8 +23,8 @@ app.controller('MainController', function($scope, PageService, PostFactory) {
     PostFactory.getById(id).then(function(response) {
 
       $scope.post = response.data;
-      PageService.setTitle($scope.post.title);
-      PageService.setSubTitle($scope.post.subtitle);
+      PageFactory.setTitle($scope.post.title);
+      PageFactory.setSubTitle($scope.post.subtitle);
 
     });
   };
