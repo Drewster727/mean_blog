@@ -1,6 +1,9 @@
 var app = angular.module('meanBlog.controllers', []);
 
 app.controller('MainController', function($scope, PageFactory, PostFactory) {
+  PageFactory.setTitle('');
+  PageFactory.setSubTitle('');
+
   $scope.posts = [];
 
   $scope.getPosts = function() {
