@@ -6,7 +6,7 @@ app.factory('PostFactory', ['$http', function($http) {
 
     // call to GET all posts
     get: function() {
-      return $http.get('/api/blog/post', {
+      return $http.get('/api/post', {
         params: {
           ttl: 30000
         }
@@ -14,7 +14,7 @@ app.factory('PostFactory', ['$http', function($http) {
     },
 
     getById: function(id) {
-      return $http.get('/api/blog/post/' + id, {
+      return $http.get('/api/post/' + id, {
         params: {
           ttl: 30000
         }
@@ -23,12 +23,12 @@ app.factory('PostFactory', ['$http', function($http) {
 
     // call to CREATE a post
     create: function(postData) {
-      return $http.post('/api/blog/post', postData);
+      return $http.post('/api/post', postData);
     },
 
     // call to DELETE a post
     delete: function(id) {
-      return $http.delete('/api/blog/post/' + id);
+      return $http.delete('/api/post/' + id);
     }
 
   }

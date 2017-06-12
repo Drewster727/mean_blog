@@ -1,33 +1,34 @@
 // app/routes/api.js
 
 // load the todo model
-var post = require('../models/post');
+var post = require('../../models/post');
 
 var router = require('express').Router();
 
-router.get('/', function(req, res) {
+router.get('/:post_id?', function(req, res) {
 
-  // use mongoose to get all todos in the database
-  post.find(function(err, posts) {
+  var postId = req.params.post_id;
+  if (postId) {
+    post.findOne({
+      _id: req.params.post_id
+    }, function(err, posts) {
 
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-    if (err)
-      res.send(err)
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err)
+        res.send(err)
 
-    res.json(posts); // return all todos in JSON format
-  });
-});
-router.get('/:post_id', function(req, res) {
-  post.findOne({
-    _id: req.params.post_id
-  }, function(err, posts) {
+      res.json(posts); // return all todos in JSON format
+    });
+  } else {
+    post.find(function(err, posts) {
 
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-    if (err)
-      res.send(err)
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err)
+        res.send(err)
 
-    res.json(posts); // return all todos in JSON format
-  });
+      res.json(posts); // return all todos in JSON format
+    });
+  }
 });
 router.post('/', function(req, res) {
 
