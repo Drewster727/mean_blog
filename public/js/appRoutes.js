@@ -1,23 +1,27 @@
-angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('meanBlog.routes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
-    $routeProvider
+  $routeProvider
 
-        // home page
-        .when('/', {
-            templateUrl: 'views/home.html',
-            controller: 'MainController'
-        });
+    // home page
+    .when('/', {
+      templateUrl: 'views/posts.html',
+      controller: 'MainController'
+    })
 
-        // nerds page that will use the NerdController
-        // .when('/nerds', {
-        //     templateUrl: 'views/nerd.html',
-        //     controller: 'NerdController'
-        // });
+    // post view page
+    .when('/post/:postid', {
+      templateUrl: '/views/post.html',
+      controller: 'PostController'
+    })
 
-    //$locationProvider.html5Mode(true);
-    $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
+    .otherwise({
+      redirectTo: '/'
     });
+
+  //$locationProvider.html5Mode(true);
+  $locationProvider.html5Mode({
+    enabled: true,
+    requireBase: false
+  });
 
 }]);

@@ -1,0 +1,15 @@
+<div ng-repeat="p in posts" class="post-preview">
+  <a href="/post/{{p._id}}">
+    <h2 class="post-title">{{p.title}}</h2>
+    <h3 class="post-subtitle">{{p.subtitle}}</h3>
+  </a>
+  <span ng-repeat="t in p.tags" class="label label-default post-tag">{{t}}</span>
+  <p class="post-meta">Posted by <a href="#">{{p.createdby}}</a> on {{p.created | date:'fullDate'}}</p>
+</div>
+
+<!-- Pager -->
+<ul class="pager">
+  <li class="next">
+    <a href="#">Older Posts &rarr;</a>
+  </li>
+</ul>

@@ -12,11 +12,12 @@ var port = process.env.PORT || 8888; // set the port
 
 // configuration ===============================================================
 mongoose.connect(database.url, function(err, db) {
-  if(!err) {
+  if (!err) {
     console.log("Connected to mongo");
   }
 }); // connect to mongoDB database on modulus.io
 
+app.use('/api/post*', require('./app/routes/post'))
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 app.use(bodyParser.urlencoded({
   'extended': 'true'
@@ -28,14 +29,14 @@ app.use(bodyParser.json({
 app.use(methodOverride());
 
 // routes ======================================================================
-require('./app/routes.js')(app);
+//require('./app/routes/api.js')(app);
 
 // listen (start app with node server.js) ======================================
 app.listen(port, function() {
-    console.log('Listening on port %d', port);
+  console.log('Listening on port %d', port);
 
-    if (process.send) {
-        process.send('online');
-    }
+  if (process.send) {
+    process.send('online');
+  }
 });
 console.log("App listening on port : " + port);

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+  <!-- <base href="/"> -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,40 +63,20 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           <div class="site-heading">
-            <h1>MEAN Blog</h1>
+            <h1 ng-bind="title || 'MEAN Blog'"></h1>
             <hr class="small">
-            <span class="subheading">Because being nice is overrated</span>
+            <span class="subheading" ng-bind="subtitle || 'Because being nice is overrated'"></span>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- ANGULAR DYNAMIC CONTENT -->
-  <div ng-view></div>
-
   <!-- Main Content -->
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-                            Man must sexplore, and this is exploration at its greatest
-                        </h2>
-            <h3 class="post-subtitle">
-                            Problems look mighty small from 150 miles up
-                        </h3>
-          </a>
-          <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
-        </div>
-
-        <!-- Pager -->
-        <ul class="pager">
-          <li class="next">
-            <a href="#">Older Posts &rarr;</a>
-          </li>
-        </ul>
+        <div ng-view></div>
       </div>
     </div>
   </div>
@@ -134,20 +114,11 @@
                             </a>
             </li>
           </ul>
-          <p class="copyright text-muted">Copyright &copy; Your Website 2017</p>
+          <p class="copyright text-muted">Copyright &copy; Drew McMinn 2017</p>
         </div>
       </div>
     </div>
   </footer>
-
-  <!-- Angular -->
-  <script src="libs/angular/angular.js"></script>
-  <script src="libs/angular-route/angular-route.js"></script>
-
-  <script src="js/controllers/mainCtrl.js"></script>
-  <script src="js/services/postSvc.js"></script>
-  <script src="js/appRoutes.js"></script>
-  <script src="js/app.js"></script>
 
   <!-- jQuery -->
   <script src="libs/jquery/dist/jquery.min.js"></script>
@@ -162,11 +133,21 @@
   <!-- Theme JavaScript -->
   <!-- <script src="js/clean-blog.min.js"></script> -->
 
+  <!-- Angular -->
+  <script src="libs/angular/angular.js"></script>
+  <script src="libs/angular-route/angular-route.js"></script>
+
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/appRoutes.js"></script>
+  <script src="js/factories.js"></script>
+
+
   <script id="__bs_script__">
     //<![CDATA[
     document.write("<script async src='http://HOST:8889/browser-sync/browser-sync-client.js?v=2.18.12'><\/script>".replace("HOST", location.hostname));
     //]]>
-    </script>
+  </script>
 </body>
 
 </html>

@@ -156,7 +156,7 @@ hr.small {
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;*/
-  background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url('/img/home-bg.jpg');
+  background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/home-bg.jpg');
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -255,11 +255,15 @@ hr.small {
   margin-bottom: 10px;
 }
 
+.post-preview>.post-tag {
+  margin-right: 2px;
+}
+
 .post-preview>.post-meta {
   color: #777777;
   font-size: 18px;
   font-style: italic;
-  margin-top: 0;
+  margin-top: 6px;
 }
 
 .post-preview>.post-meta>a {
