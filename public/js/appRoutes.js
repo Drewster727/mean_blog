@@ -6,38 +6,55 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
     .when('/', {
       templateUrl: 'views/posts.html',
       controller: 'MainController',
-      resolve: {
-        loggedin: checkCurrentUser
+      access: {
+        restricted: false
+      }
+    })
+
+    .when('/login', {
+      templateUrl: 'partials/login.html',
+      controller: 'LoginController',
+      access: {
+        restricted: false
+      }
+    })
+
+    .when('/logout', {
+      controller: 'LogoutController',
+      access: {
+        restricted: true
+      }
+    })
+
+    .when('/register', {
+      templateUrl: 'partials/register.html',
+      controller: 'RegisterController',
+      access: {
+        restricted: false
       }
     })
 
     .when('/about', {
       templateUrl: 'views/about.html',
       controller: 'AboutController',
-      resolve: {
-        loggedin: checkCurrentUser
+      access: {
+        restricted: false
       }
     })
 
     .when('/contact', {
       templateUrl: 'views/contact.html',
       controller: 'ContactController',
-      resolve: {
-        loggedin: checkCurrentUser
+      access: {
+        restricted: true
       }
-    })
-
-    .when('/login', {
-      templateUrl: 'views/login.html',
-      controller: 'LoginController',
-      controllerAs: 'model'
     })
 
     .when('/tags/:tag', {
       templateUrl: 'views/posts.html',
       controller: 'MainController',
-      resolve: {
-        loggedin: checkCurrentUser
+      access: {
+        restricted: true
       }
     })
 
@@ -45,16 +62,16 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
     .when('/post/:postid', {
       templateUrl: '/views/post.html',
       controller: 'PostController',
-      resolve: {
-        loggedin: checkCurrentUser
+      access: {
+        restricted: true
       }
     })
 
     .when('/postedit/:postid?', {
       templateUrl: '/views/postedit.html',
       controller: 'PostEditController',
-      resolve: {
-        loggedin: checkCurrentUser
+      access: {
+        restricted: true
       }
     })
 
@@ -68,40 +85,15 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
     requireBase: false
   });
 
-}]);
-
-var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
-  var deferred = $q.defer();
-
-  $http.get('/api/loggedin').success(function(user) {
-    $rootScope.errorMessage = null;
-    // User is Authenticated
-    if (user !== '0') {
-      $rootScope.currentUser = user;
-      deferred.resolve();
-    }
-    // User is Not Authenticated
-    else {
-      $rootScope.errorMessage = 'You need to log in.';
-      deferred.reject();
-      $location.url('/login');
-    }
-  });
-
-  return deferred.promise;
-};
-
-var checkCurrentUser = function($q, $timeout, $http, $location, $rootScope) {
-  var deferred = $q.defer();
-
-  $http.get('/api/loggedin').success(function(user) {
-    $rootScope.errorMessage = null;
-    // User is Authenticated
-    if (user !== '0') {
-      $rootScope.currentUser = user;
-    }
-    deferred.resolve();
-  });
-
-  return deferred.promise;
-};
+}]).run(function($rootScope, $location, $route, AuthService) {
+  $rootScope.$on('$routeChangeStart',
+    function(event, next, current) {
+      AuthService.getUserStatus()
+        .then(function() {
+          if (next.access.restricted && !AuthService.isLoggedIn()) {
+            $location.path('/login');
+            $route.reload();
+          }
+        });
+    });
+});

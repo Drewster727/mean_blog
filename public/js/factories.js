@@ -1,40 +1,128 @@
-var app = angular.module('meanBlog.factories', []);
+var app = angular.module('meanBlog.services', []);
 
-app.factory('UserFactory', ['$http', function($http) {
+app.factory('AuthService', ['$q', '$timeout', '$http',
+  function($q, $timeout, $http) {
 
-  var userFactory = {};
+    // create user variable
+    var user = null;
 
-  userFactory.logout = function() {
-    return $http.post("/api/logout");
-  };
+    // return available functions for use in the controllers
+    return ({
+      isLoggedIn: isLoggedIn,
+      getUserStatus: getUserStatus,
+      login: login,
+      logout: logout,
+      register: register
+    });
 
-  userFactory.createUser = function(user) {
-    return $http.post('/api/user', user);
-  };
+    function isLoggedIn() {
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
-  function updateUser(userId, user) {
-    return $http.put('/api/user/' + userId, user);
-  };
+    function getUserStatus() {
+      return $http.get('/user/status')
+        // handle success
+        .success(function(data) {
+          if (data.status) {
+            user = true;
+          } else {
+            user = false;
+          }
+        })
+        // handle error
+        .error(function(data) {
+          user = false;
+        });
+    }
 
-  userFactory.deleteUser = function(userId) {
-    return $http.delete('/api/user/' + userId);
-  };
+    function login(username, password) {
 
-  userFactory.findAllUsers = function() {
-    return $http.get("/api/user");
-  };
+      // create a new instance of deferred
+      var deferred = $q.defer();
 
-  userFactory.register = function(user) {
-    return $http.post("/api/register", user);
-  };
+      // send a post request to the server
+      $http.post('/user/login', {
+          username: username,
+          password: password
+        })
+        // handle success
+        .success(function(data, status) {
+          if (status === 200 && data.status) {
+            user = true;
+            deferred.resolve();
+          } else {
+            user = false;
+            deferred.reject();
+          }
+        })
+        // handle error
+        .error(function(data) {
+          user = false;
+          deferred.reject();
+        });
 
-  userFactory.login = function(user) {
-    return $http.post("/api/login", user);
-  };
+      // return promise object
+      return deferred.promise;
 
-  return userFactory;
+    }
 
-}]).factory('PostFactory', ['$http', function($http) {
+    function logout() {
+
+      // create a new instance of deferred
+      var deferred = $q.defer();
+
+      // send a get request to the server
+      $http.get('/user/logout')
+        // handle success
+        .success(function(data) {
+          user = false;
+          deferred.resolve();
+        })
+        // handle error
+        .error(function(data) {
+          user = false;
+          deferred.reject();
+        });
+
+      // return promise object
+      return deferred.promise;
+
+    }
+
+    function register(username, password) {
+
+      // create a new instance of deferred
+      var deferred = $q.defer();
+
+      // send a post request to the server
+      $http.post('/user/register', {
+          username: username,
+          password: password
+        })
+        // handle success
+        .success(function(data, status) {
+          if (status === 200 && data.status) {
+            deferred.resolve();
+          } else {
+            deferred.reject();
+          }
+        })
+        // handle error
+        .error(function(data) {
+          deferred.reject();
+        });
+
+      // return promise object
+      return deferred.promise;
+
+    }
+
+  }
+]).factory('PostService', ['$http', function($http) {
 
   return {
 
@@ -80,7 +168,7 @@ app.factory('UserFactory', ['$http', function($http) {
 
   }
 
-}]).factory('PageFactory', ['$rootScope', function($rootScope) {
+}]).factory('PageService', ['$rootScope', function($rootScope) {
   return {
     setTitle: function(title) {
       $rootScope.title = title;

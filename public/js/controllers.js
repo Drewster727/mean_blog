@@ -1,26 +1,8 @@
 var app = angular.module('meanBlog.controllers', []);
 
-app.controller('LoginController', function($scope, $location, UserFactory) {
-
-    $scope.login = login;
-
-    function login(user) {
-      if (user)
-        UserFactory
-        .login(user)
-        .then(
-          function(response) {
-            $rootScope.currentUser = response.data;
-            $location.url("/home");
-          },
-          function(err) {
-            $scope.error = err;
-          });
-    }
-  })
-  .controller('MainController', function($scope, $routeParams, $location, $linq, PageFactory, PostFactory) {
-    PageFactory.setTitle('');
-    PageFactory.setSubTitle('');
+app.controller('MainController', function($scope, $routeParams, $location, $linq, PageService, PostService) {
+    PageService.setTitle('');
+    PageService.setSubTitle('');
 
     $scope.posts = [];
 
@@ -30,7 +12,7 @@ app.controller('LoginController', function($scope, $location, UserFactory) {
 
     $scope.getPosts = function(sort) {
       $scope.posts = [];
-      PostFactory.get().then(function(response) {
+      PostService.get().then(function(response) {
         var posts = [];
 
         switch (sort) {
@@ -62,13 +44,13 @@ app.controller('LoginController', function($scope, $location, UserFactory) {
 
     $scope.getPostsByTag = function(tag) {
       $scope.posts = [];
-      PostFactory.getByTag(tag).then(function(response) {
+      PostService.getByTag(tag).then(function(response) {
         $scope.posts = response.data;
       });
     };
 
     $scope.vote = function(postId, vote) {
-      PostFactory.vote(postId, 'drew', vote);
+      PostService.vote(postId, 'drew', vote);
     };
 
     if ($routeParams.tag) {
@@ -77,44 +59,114 @@ app.controller('LoginController', function($scope, $location, UserFactory) {
       $scope.getPosts();
     }
   })
-  .controller('AboutController', function($scope, PageFactory) {
-    PageFactory.setTitle('About');
-    PageFactory.setSubTitle('No really, what\'s the deal here?');
+  .controller('AboutController', function($scope, PageService) {
+    PageService.setTitle('About');
+    PageService.setSubTitle('No really, what\'s the deal here?');
   })
-  .controller('ContactController', function($scope, PageFactory) {
-    PageFactory.setTitle('Contact');
-    PageFactory.setSubTitle('For the love of god, don\'t spam me!');
+  .controller('ContactController', function($scope, PageService) {
+    PageService.setTitle('Contact');
+    PageService.setSubTitle('For the love of god, don\'t spam me!');
   })
-  .controller('PostController', function($scope, $routeParams, PageFactory, PostFactory) {
+  .controller('PostController', function($scope, $routeParams, PageService, PostService) {
     $scope.post = {};
 
     $scope.getPost = function(id) {
       $scope.post = {};
-      PostFactory.getById(id).then(function(response) {
+      PostService.getById(id).then(function(response) {
 
         $scope.post = response.data;
-        PageFactory.setTitle($scope.post.title);
-        PageFactory.setSubTitle($scope.post.subtitle);
+        PageService.setTitle($scope.post.title);
+        PageService.setSubTitle($scope.post.subtitle);
 
       });
     };
 
     $scope.getPost($routeParams.postid);
-  }).controller('PostEditController', function($scope, $routeParams, PageFactory, PostFactory) {
+  }).controller('PostEditController', function($scope, $routeParams, PageService, PostService) {
     $scope.post = {};
     $scope.availableTags = ['test', 'fun', 'funny'];
 
     $scope.getPost = function(id) {
       $scope.post = {};
-      PostFactory.getById(id).then(function(response) {
+      PostService.getById(id).then(function(response) {
 
         $scope.post = response.data;
-        //PageFactory.setTitle($scope.post.title);
-        //PageFactory.setSubTitle($scope.post.subtitle);
+        //PageService.setTitle($scope.post.title);
+        //PageService.setSubTitle($scope.post.subtitle);
 
       });
     };
 
     if ($routeParams.postid)
       $scope.getPost($routeParams.postid);
-  });
+  }).controller('LoginController', ['$scope', '$location', 'AuthService',
+    function($scope, $location, AuthService) {
+
+      $scope.login = function() {
+
+        // initial values
+        $scope.error = false;
+        $scope.disabled = true;
+
+        // call login from service
+        AuthService.login($scope.loginForm.username, $scope.loginForm.password)
+          // handle success
+          .then(function() {
+            $location.path('/');
+            $scope.disabled = false;
+            $scope.loginForm = {};
+          })
+          // handle error
+          .catch(function() {
+            $scope.error = true;
+            $scope.errorMessage = "Invalid username and/or password";
+            $scope.disabled = false;
+            $scope.loginForm = {};
+          });
+
+      };
+
+    }
+  ]).controller('LogoutController', ['$scope', '$location', 'AuthService',
+    function($scope, $location, AuthService) {
+
+      $scope.logout = function() {
+
+        // call logout from service
+        AuthService.logout()
+          .then(function() {
+            $location.path('/login');
+          });
+
+      };
+
+    }
+  ]).controller('RegisterController', ['$scope', '$location', 'AuthService',
+    function($scope, $location, AuthService) {
+
+      $scope.register = function() {
+
+        // initial values
+        $scope.error = false;
+        $scope.disabled = true;
+
+        // call register from service
+        AuthService.register($scope.registerForm.username, $scope.registerForm.password)
+          // handle success
+          .then(function() {
+            $location.path('/login');
+            $scope.disabled = false;
+            $scope.registerForm = {};
+          })
+          // handle error
+          .catch(function() {
+            $scope.error = true;
+            $scope.errorMessage = "Something went wrong!";
+            $scope.disabled = false;
+            $scope.registerForm = {};
+          });
+
+      };
+
+    }
+  ]);
