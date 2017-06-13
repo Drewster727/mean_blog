@@ -18,11 +18,15 @@ app.controller('LoginController', function($scope, $location, UserFactory) {
           });
     }
   })
-  .controller('MainController', function($scope, $routeParams, $linq, PageFactory, PostFactory) {
+  .controller('MainController', function($scope, $routeParams, $location, $linq, PageFactory, PostFactory) {
     PageFactory.setTitle('');
     PageFactory.setSubTitle('');
 
     $scope.posts = [];
+
+    $scope.redirect = function(path) {
+      $location.url(path);
+    };
 
     $scope.getPosts = function(sort) {
       $scope.posts = [];

@@ -31,23 +31,9 @@ module.exports = function() {
     createUser: createUser,
     removeUser: removeUser,
     updateUser: updateUser,
-    findUserByGoogleId: findUserByGoogleId,
-    findUserByFacebookId: findUserByFacebookId,
     getMongooseModel: getMongooseModel
   };
   return api;
-
-  function findUserByFacebookId(facebookId) {
-    return UserModel.findOne({
-      'facebook.id': facebookId
-    });
-  }
-
-  function findUserByGoogleId(googleId) {
-    return UserModel.findOne({
-      'google.id': googleId
-    });
-  }
 
   function updateUser(userId, user) {
     return UserModel.update({

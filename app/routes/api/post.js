@@ -97,6 +97,30 @@ router.post('/', function(req, res) {
     });
   });
 });
+router.post('/save/:post_id', function(req, res) {
+  var p = req.body;
+
+  if (!p.created)
+    p.created = new Date();
+
+  if (!p.createdby)
+    p.createdby = 'drew';
+
+  if (!p.modifiedby)
+    p.modifiedby = 'drew';
+
+  p.modified = new Date();
+
+  post.update({
+    _id: req.params.post_id
+  }, {
+    $set: req.body
+  }, function(err, post) {
+    if (err)
+      res.send(err)
+    res.json(post);
+  });
+});
 router.delete('/:post_id', function(req, res) {
   post.remove({
     _id: req.params.post_id
