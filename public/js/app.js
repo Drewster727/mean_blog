@@ -1,6 +1,6 @@
 angular.module('meanBlog', []);
 
-angular.module('meanBlog', ['ngRoute', 'meanBlog.controllers', 'meanBlog.routes', 'meanBlog.factories'])
+angular.module('meanBlog', ['ngRoute', 'angular-linq', 'meanBlog.controllers', 'meanBlog.routes', 'meanBlog.factories'])
   .filter("sanitize", ['$sce', function($sce) {
     return function(htmlCode) {
       return $sce.trustAsHtml(htmlCode);
