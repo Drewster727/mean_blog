@@ -7,12 +7,12 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
       templateUrl: 'views/posts.html',
       controller: 'MainController',
       access: {
-        restricted: false
+        restricted: true
       }
     })
 
     .when('/login', {
-      templateUrl: 'partials/login.html',
+      templateUrl: 'views/login.html',
       controller: 'LoginController',
       access: {
         restricted: false
@@ -27,7 +27,7 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
     })
 
     .when('/register', {
-      templateUrl: 'partials/register.html',
+      templateUrl: 'views/register.html',
       controller: 'RegisterController',
       access: {
         restricted: false

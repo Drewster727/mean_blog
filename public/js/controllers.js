@@ -7,7 +7,7 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
     $scope.posts = [];
 
     $scope.redirect = function(path) {
-      $location.url(path);
+      $location.path(path);
     };
 
     $scope.getPosts = function(sort) {
@@ -124,6 +124,10 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
             $scope.loginForm = {};
           });
 
+      };
+
+      $scope.redirect = function(path) {
+        $location.path(path);
       };
 
     }
