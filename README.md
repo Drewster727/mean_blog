@@ -1,7 +1,7 @@
 # mean_blog
 
 ## Notes
-I've had take a few shortcuts in some areas in order to meet the deadline and personal time constraints. Particularly when it came to sorting/paging, among other areas.
+I have had take a few shortcuts due to personal time constraints and to meet the deadline. Particularly when it came to sorting, paging, validation, and other areas.
 
 ### Functional Requirements
 
@@ -40,3 +40,6 @@ I've had take a few shortcuts in some areas in order to meet the deadline and pe
 - Backend service must be RESTful
 
 - Extra credit for utilizing Bootstrap 3 f​ or responsive design
+
+![Alt text](https://user-images.githubusercontent.com/4528753/27103761-61829cba-504f-11e7-8627-8605f1c00cbb.png "Screenshot")
+
