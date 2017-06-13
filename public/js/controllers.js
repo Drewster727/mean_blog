@@ -96,4 +96,21 @@ app.controller('LoginController', function($scope, $location, UserFactory) {
     };
 
     $scope.getPost($routeParams.postid);
+  }).controller('PostEditController', function($scope, $routeParams, PageFactory, PostFactory) {
+    $scope.post = {};
+    $scope.availableTags = ['test', 'fun', 'funny'];
+
+    $scope.getPost = function(id) {
+      $scope.post = {};
+      PostFactory.getById(id).then(function(response) {
+
+        $scope.post = response.data;
+        //PageFactory.setTitle($scope.post.title);
+        //PageFactory.setSubTitle($scope.post.subtitle);
+
+      });
+    };
+
+    if ($routeParams.postid)
+      $scope.getPost($routeParams.postid);
   });

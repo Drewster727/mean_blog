@@ -50,6 +50,14 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
       }
     })
 
+    .when('/postedit/:postid?', {
+      templateUrl: '/views/postedit.html',
+      controller: 'PostEditController',
+      resolve: {
+        loggedin: checkCurrentUser
+      }
+    })
+
     .otherwise({
       redirectTo: '/'
     });
