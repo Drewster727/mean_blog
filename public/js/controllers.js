@@ -1,36 +1,74 @@
 var app = angular.module('meanBlog.controllers', []);
 
-app.controller('MainController', function($scope, PageFactory, PostFactory) {
-  PageFactory.setTitle('');
-  PageFactory.setSubTitle('');
+app.controller('LoginController', function($scope, $location, UserFactory) {
 
-  $scope.posts = [];
+    $scope.login = login;
 
-  $scope.getPosts = function() {
+    function login(user) {
+      if (user)
+        UserFactory
+        .login(user)
+        .then(
+          function(response) {
+            $rootScope.currentUser = response.data;
+            $location.url("/home");
+          },
+          function(err) {
+            $scope.error = err;
+          });
+    }
+  })
+  .controller('MainController', function($scope, $routeParams, PageFactory, PostFactory) {
+    PageFactory.setTitle('');
+    PageFactory.setSubTitle('');
+
     $scope.posts = [];
-    PostFactory.get().then(function(response) {
-      $scope.posts = response.data;
-    });
-  };
 
-  $scope.vote = function(postId, vote) {
-    PostFactory.vote(postId, 'drew', vote);
-  };
+    $scope.getPosts = function() {
+      $scope.posts = [];
+      PostFactory.get().then(function(response) {
+        $scope.posts = response.data;
+      });
+    };
 
-  $scope.getPosts();
-}).controller('PostController', function($scope, $routeParams, PageFactory, PostFactory) {
-  $scope.post = {};
+    $scope.getPostsByTag = function(tag) {
+      $scope.posts = [];
+      PostFactory.getByTag(tag).then(function(response) {
+        $scope.posts = response.data;
+      });
+    };
 
-  $scope.getPost = function(id) {
+    $scope.vote = function(postId, vote) {
+      PostFactory.vote(postId, 'drew', vote);
+    };
+
+    if ($routeParams.tag) {
+      $scope.getPostsByTag($routeParams.tag);
+    } else {
+      $scope.getPosts();
+    }
+  })
+  .controller('AboutController', function($scope, PageFactory) {
+    PageFactory.setTitle('About');
+    PageFactory.setSubTitle('No really, what\'s the deal here?');
+  })
+  .controller('ContactController', function($scope, PageFactory) {
+    PageFactory.setTitle('Contact');
+    PageFactory.setSubTitle('For the love of god, don\'t spam me!');
+  })
+  .controller('PostController', function($scope, $routeParams, PageFactory, PostFactory) {
     $scope.post = {};
-    PostFactory.getById(id).then(function(response) {
 
-      $scope.post = response.data;
-      PageFactory.setTitle($scope.post.title);
-      PageFactory.setSubTitle($scope.post.subtitle);
+    $scope.getPost = function(id) {
+      $scope.post = {};
+      PostFactory.getById(id).then(function(response) {
 
-    });
-  };
+        $scope.post = response.data;
+        PageFactory.setTitle($scope.post.title);
+        PageFactory.setSubTitle($scope.post.subtitle);
 
-  $scope.getPost($routeParams.postid);
-});
+      });
+    };
+
+    $scope.getPost($routeParams.postid);
+  });

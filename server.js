@@ -7,6 +7,10 @@ var mongoose = require('mongoose'); // mongoose for mongodb
 var bodyParser = require('body-parser'); // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var database = require('./config/database');
+var multer = require('multer');
+var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var port = process.env.PORT || 8888; // set the port
 
 // configuration ===============================================================
@@ -23,13 +27,26 @@ app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({
   type: 'application/vnd.api+json'
 })); // parse application/vnd.api+json as json
+multer();
+app.use(session({
+  secret: 'this is the secret',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(methodOverride());
 
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 app.use('/api/post', require('./app/routes/api/post'));
+
+require("./app/routes/api/user.js")(app);
+
 app.get('*', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
+
 
 // routes ======================================================================
 //require('./app/routes/api.js')(app);

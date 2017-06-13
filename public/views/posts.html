@@ -1,9 +1,27 @@
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default">New Post</button>
+
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Sort
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Popularity</a></li>
+      <li><a href="#">Title</a></li>
+      <li><a href="#">Date Created</a></li>
+    </ul>
+  </div>
+</div>
+
 <div ng-repeat="p in posts" class="post-preview">
   <a href="/post/{{p._id}}">
     <h2 class="post-title">{{p.title}}</h2>
     <h3 class="post-subtitle">{{p.subtitle}}</h3>
   </a>
-  <span ng-repeat="t in p.tags" class="label label-default post-tag">{{t}}</span>
+  <a ng-repeat="t in p.tags" href="/tags/{{t}}">
+    <span class="label label-default post-tag">{{t}}</span>
+  </a>
   <p class="post-meta">Posted by <a href="#">{{p.createdby}}</a> on {{p.created | date:'fullDate'}}</p>
   <div class="btn-group" role="group" aria-label="...">
     <button type="button" class="btn btn-default btn-xs" ng-click="vote(p._id, -1)">
@@ -13,6 +31,7 @@
   <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;
   </button>
   </div>
+  <hr/>
 </div>
 
 <!-- Pager -->

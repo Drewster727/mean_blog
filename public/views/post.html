@@ -1,3 +1,20 @@
-<div>
-  {{post.text}}
-</div>
+<article>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        {{post.text}}
+        <br/><br/>
+        <span ng-repeat="t in post.tags" class="label label-default post-tag">{{pt}}</span>
+        <p class="post-meta">Posted by <a href="#">{{p.createdby}}</a> on {{post.created | date:'fullDate'}}</p>
+        <div class="btn-group" role="group" aria-label="...">
+          <button type="button" class="btn btn-default btn-xs" ng-click="vote(post._id, -1)">
+            <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;
+          </button>
+          <button type="button" class="btn btn-default btn-xs" ng-click="vote(post._id, 1)">
+          <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;
+          </button>
+        </div>
+      </div>
+    </div>
+</article>

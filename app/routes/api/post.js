@@ -16,36 +16,26 @@ router.get('/:post_id?', function(req, res) {
     }, function(err, posts) {
       if (err)
         res.send(err)
-      res.json(posts); // return all todos in JSON format
+      res.json(posts);
     });
   } else {
     post.find(function(err, posts) {
       if (err)
-        res.send(err)
-      res.json(posts); // return all todos in JSON format
+        res.send(err);
+      res.json(posts);
     });
   }
 });
 router.get('/tag/:tag', function(req, res) {
-
-  var tag = req.params.tag;
-  if (tag) {
-    post.findOne({
-      tags: {
-        "$in": [tag]
-      }
-    }, function(err, posts) {
-      if (err)
-        res.send(err)
-      res.json(posts); // return all todos in JSON format
-    });
-  } else {
-    post.find(function(err, posts) {
-      if (err)
-        res.send(err)
-      res.json(posts); // return all todos in JSON format
-    });
-  }
+  post.find({
+    tags: {
+      "$in": [req.params.tag]
+    }
+  }, function(err, posts) {
+    if (err)
+      res.send(err);
+    res.json(posts); // return all todos in JSON format
+  });
 });
 router.post('/vote/:post_id/:user/:vote', function(req, res) {
   var voter = {
