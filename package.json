@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "mean blog demo",
   "main": "server.js",
+  "scripts": {
+	"nodemon": "nodemon server.js",
+	"browser-sync": "browser-sync start --proxy localhost:8888 --files 'public/**/*.*'"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.0",
