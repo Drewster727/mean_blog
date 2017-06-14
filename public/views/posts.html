@@ -24,12 +24,16 @@
   </a>
   <p class="post-meta">Posted by <a href="#">{{p.createdby}}</a> on {{p.created | date:'fullDate'}}</p>
   <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default btn-xs" ng-click="vote(p._id, -1)">
-    <span class="glyphicon glyphicon-thumbs-down gi-2x"></span>&nbsp;
+    <button type="button" class="btn btn-default" ng-click="vote(p._id, -1)">
+    <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;
   </button>
-    <button type="button" class="btn btn-default btn-xs" ng-click="vote(p._id, 1)">
-  <span class="glyphicon glyphicon-thumbs-up gi-2x"></span>&nbsp;
+    <button type="button" class="btn btn-default" ng-click="vote(p._id, 1)">
+  <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;
   </button>
+  </div>
+  <div ng-if="owned(p.createdby)" class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-default" ng-click="redirect('/postedit/' + p._id)">Edit</button>
+    </button>
   </div>
   <hr/>
 </div>

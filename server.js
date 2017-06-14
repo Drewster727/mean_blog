@@ -57,7 +57,8 @@ app.use(passport.session()); // persistent login sessions
 app.use('/', auth);
 app.use('/api/post', post);
 app.get('*', function(req, res) {
-  res.render('/');
+  //res.render('/');
+  res.sendfile(__dirname + '/public/index.html')
 });
 
 // listen (start app with node server.js) ======================================

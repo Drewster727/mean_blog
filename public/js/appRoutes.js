@@ -88,7 +88,7 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
 }]).run(function($rootScope, $location, $route, AuthService) {
   $rootScope.$on('$routeChangeStart',
     function(event, next, current) {
-      if (next.access.restricted && !AuthService.isLoggedIn()) {
+      if (!next.access || (next.access.restricted && !AuthService.isLoggedIn())) {
         $location.path('/login');
       }
       // AuthService.getUserStatus()
