@@ -99,7 +99,25 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
 
     if ($routeParams.postid)
       $scope.getPost($routeParams.postid);
-  }).controller('LoginController', ['$scope', '$location', 'AuthService',
+  }).controller('MenuController', ['$rootScope', '$scope', '$location', 'AuthService',
+    function($rootScope, $scope, $location, AuthService) {
+
+      $scope.$watch('$root.currentUser', function() {
+        $scope.currentUser = $rootScope.currentUser;
+      });
+
+      $scope.logout = function() {
+
+        // call logout from service
+        AuthService.logout()
+          .then(function() {
+            $location.path('/login');
+          });
+
+      };
+
+    }
+  ]).controller('LoginController', ['$scope', '$location', 'AuthService',
     function($scope, $location, AuthService) {
 
       $scope.login = function() {

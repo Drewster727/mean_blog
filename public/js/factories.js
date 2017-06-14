@@ -1,7 +1,7 @@
 var app = angular.module('meanBlog.services', []);
 
-app.factory('AuthService', ['$q', '$timeout', '$http',
-  function($q, $timeout, $http) {
+app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http',
+  function($rootScope, $q, $timeout, $http) {
 
     // create user variable
     var user = null;
@@ -53,9 +53,11 @@ app.factory('AuthService', ['$q', '$timeout', '$http',
         .success(function(data, status) {
           if (status === 200 && data.status) {
             user = true;
+            $rootScope.currentUser = data.user;
             deferred.resolve();
           } else {
             user = false;
+            $rootScope.currentUser = null;
             deferred.reject();
           }
         })
@@ -80,11 +82,13 @@ app.factory('AuthService', ['$q', '$timeout', '$http',
         // handle success
         .success(function(data) {
           user = false;
+          $rootScope.currentUser = null;
           deferred.resolve();
         })
         // handle error
         .error(function(data) {
           user = false;
+          $rootScope.currentUser = null;
           deferred.reject();
         });
 

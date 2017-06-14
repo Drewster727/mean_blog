@@ -39,7 +39,7 @@
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div ng-if="currentUser" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="MenuController">
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href="/">Home</a>
@@ -50,8 +50,8 @@
           <li>
             <a href="/contact">Contact</a>
           </li>
-          <li ng-if="currentUser">
-            <a href="#logout" ng-click="logout()">Logout</a>
+          <li>
+            <a href="javascript:void(0);" ng-click="logout()">Logout</a>
           </li>
         </ul>
       </div>
