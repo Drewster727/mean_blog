@@ -1,14 +1,19 @@
 var app = angular.module('meanBlog.controllers', []);
 
-app.controller('MainController', function($scope, $routeParams, $location, $linq, PageService, PostService) {
-    PageService.setTitle('');
-    PageService.setSubTitle('');
-
-    $scope.posts = [];
+app.controller('BaseController', function($scope, $routeParams, $location, $linq, PageService, PostService) {
 
     $scope.redirect = function(path) {
       $location.path(path);
     };
+
+})
+  .controller('MainController', function($controller, scope, $routeParams, $location, $linq, PageService, PostService) {
+    $controller('BaseController', { $scope: $scope });
+
+    PageService.setTitle('');
+    PageService.setSubTitle('');
+
+    $scope.posts = [];
 
     $scope.getPosts = function(sort) {
       $scope.posts = [];
@@ -59,15 +64,19 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
       $scope.getPosts();
     }
   })
-  .controller('AboutController', function($scope, PageService) {
+  .controller('AboutController', function($controller, $scope, PageService) {
+    $controller('BaseController', { $scope: $scope });
     PageService.setTitle('About');
     PageService.setSubTitle('No really, what\'s the deal here?');
   })
-  .controller('ContactController', function($scope, PageService) {
+  .controller('ContactController', function($controller, $scope, PageService) {
+    $controller('BaseController', { $scope: $scope });
     PageService.setTitle('Contact');
     PageService.setSubTitle('For the love of god, don\'t spam me!');
   })
-  .controller('PostController', function($scope, $routeParams, PageService, PostService) {
+  .controller('PostController', function($controller, $scope, $routeParams, PageService, PostService) {
+    $controller('BaseController', { $scope: $scope });
+
     $scope.post = {};
 
     $scope.getPost = function(id) {
@@ -82,7 +91,9 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
     };
 
     $scope.getPost($routeParams.postid);
-  }).controller('PostEditController', function($scope, $routeParams, PageService, PostService) {
+  }).controller('PostEditController', function($controller, $scope, $routeParams, PageService, PostService) {
+    $controller('BaseController', { $scope: $scope });
+
     $scope.post = {};
     $scope.availableTags = ['test', 'fun', 'funny'];
 
@@ -99,8 +110,8 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
 
     if ($routeParams.postid)
       $scope.getPost($routeParams.postid);
-  }).controller('MenuController', ['$rootScope', '$scope', '$location', 'AuthService',
-    function($rootScope, $scope, $location, AuthService) {
+  }).controller('MenuController', function($controller, $rootScope, $scope, $location, AuthService) {
+      $controller('BaseController', { $scope: $scope });
 
       $scope.$watch('$root.currentUser', function() {
         $scope.currentUser = $rootScope.currentUser;
@@ -116,9 +127,8 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
 
       };
 
-    }
-  ]).controller('LoginController', ['$scope', '$location', 'AuthService',
-    function($scope, $location, AuthService) {
+  }).controller('LoginController', function($controller, $scope, $location, AuthService) {
+      $controller('BaseController', { $scope: $scope });
 
       $scope.login = function() {
 
@@ -144,13 +154,8 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
 
       };
 
-      $scope.redirect = function(path) {
-        $location.path(path);
-      };
-
-    }
-  ]).controller('LogoutController', ['$scope', '$location', 'AuthService',
-    function($scope, $location, AuthService) {
+  }).controller('LogoutController', function($controller, $scope, $location, AuthService) {
+      $controller('BaseController', { $scope: $scope });
 
       $scope.logout = function() {
 
@@ -162,9 +167,8 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
 
       };
 
-    }
-  ]).controller('RegisterController', ['$scope', '$location', 'AuthService',
-    function($scope, $location, AuthService) {
+   }).controller('RegisterController', function($controller, $scope, $location, AuthService) {
+      $controller('BaseController', { $scope: $scope });
 
       $scope.register = function() {
 
@@ -190,5 +194,4 @@ app.controller('MainController', function($scope, $routeParams, $location, $linq
 
       };
 
-    }
-  ]);
+  });
