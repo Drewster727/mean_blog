@@ -49,7 +49,16 @@ app.use(express.static(__dirname + '/public')); // set the static files location
 app.use('/api/post', require('./app/routes/api/post'));
 app.use('/api/user', require('./app/routes/api/user'));
 
-app.get('*', function(req, res) {
+app.get('*', function checkAuth(req, res, next) {
+  console.log(req);
+  if (!req.isAuthenticated() && (req.path === '/login' && req.method === 'POST')) {
+    next();
+  }
+  else if (!req.isAuthenticated()) {
+    //res.send('You are not authorized to view this page');
+    res.redirect('/login');
+  }
+}, function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
 
