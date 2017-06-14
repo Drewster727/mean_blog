@@ -1,5 +1,5 @@
 // app/routes/api.js
-
+var isLoggedIn = require('../../middleware/isLoggedIn');
 var mongoose = require("mongoose");
 mongoose.Promise = require('bluebird');
 
@@ -7,7 +7,7 @@ mongoose.Promise = require('bluebird');
 var post = require('../../models/post');
 var router = require('express').Router();
 
-router.get('/:post_id?', function(req, res) {
+router.get('/:post_id?', isLoggedIn, function(req, res) {
 
   var postId = req.params.post_id;
   if (postId) {
@@ -26,7 +26,7 @@ router.get('/:post_id?', function(req, res) {
     });
   }
 });
-router.get('/tag/:tag', function(req, res) {
+router.get('/tag/:tag', isLoggedIn, function(req, res) {
   post.find({
     tags: {
       "$in": [req.params.tag]
@@ -37,7 +37,7 @@ router.get('/tag/:tag', function(req, res) {
     res.json(posts); // return all todos in JSON format
   });
 });
-router.post('/vote/:post_id/:user/:vote', function(req, res) {
+router.post('/vote/:post_id/:user/:vote', isLoggedIn, function(req, res) {
   var voter = {
     name: req.params.user,
     vote: 1
@@ -81,7 +81,7 @@ router.post('/vote/:post_id/:user/:vote', function(req, res) {
     });
   });
 });
-router.post('/', function(req, res) {
+router.post('/', isLoggedIn, function(req, res) {
   post.create({
     text: req.body.text,
     done: false
@@ -97,7 +97,7 @@ router.post('/', function(req, res) {
     });
   });
 });
-router.post('/save/:post_id', function(req, res) {
+router.post('/save/:post_id', isLoggedIn, function(req, res) {
   var p = req.body;
 
   if (!p.created)
@@ -121,7 +121,7 @@ router.post('/save/:post_id', function(req, res) {
     res.json(post);
   });
 });
-router.delete('/:post_id', function(req, res) {
+router.delete('/:post_id', isLoggedIn, function(req, res) {
   post.remove({
     _id: req.params.post_id
   }, function(err, todo) {

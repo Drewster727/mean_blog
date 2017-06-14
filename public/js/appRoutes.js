@@ -88,12 +88,15 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
 }]).run(function($rootScope, $location, $route, AuthService) {
   $rootScope.$on('$routeChangeStart',
     function(event, next, current) {
-      AuthService.getUserStatus()
-        .then(function() {
-          if (next.access.restricted && !AuthService.isLoggedIn()) {
-            $location.path('/login');
-            $route.reload();
-          }
-        });
+      if (next.access.restricted && !AuthService.isLoggedIn()) {
+        $location.path('/login');
+      }
+      // AuthService.getUserStatus()
+      //   .then(function() {
+      //     if (next.access.restricted && !AuthService.isLoggedIn()) {
+      //       $location.path('/login');
+      //       $route.reload();
+      //     }
+      //   });
     });
 });
