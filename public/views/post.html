@@ -10,7 +10,7 @@
           <a ng-repeat="t in post.tags" href="/tags/{{t}}">
             <span class="label label-default post-tag">{{t}}</span>
           </a>
-          <p class="post-meta">Posted by <a href="#">{{p.createdby}}</a> on {{post.created | date:'fullDate'}}</p>
+          <p class="post-meta">Posted by <a href="#">{{post.createdby}}</a> on {{post.created | date:'fullDate'}}</p>
           <div class="btn-group" role="group" aria-label="...">
             <button type="button" class="btn btn-default btn-xs" ng-click="vote(post._id, -1)">
             <span class="glyphicon glyphicon-thumbs-down gi-2x"></span>&nbsp;
