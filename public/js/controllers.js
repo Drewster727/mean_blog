@@ -7,7 +7,7 @@ app.controller('BaseController', function($scope, $routeParams, $location, $linq
     };
 
 })
-  .controller('MainController', function($controller, scope, $routeParams, $location, $linq, PageService, PostService) {
+  .controller('MainController', function($controller, $scope, $routeParams, $location, $linq, PageService, PostService) {
     $controller('BaseController', { $scope: $scope });
 
     PageService.setTitle('');
