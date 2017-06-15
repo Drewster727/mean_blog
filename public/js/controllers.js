@@ -33,7 +33,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     }
 
   })
-  .controller('MainController', function($controller, $scope, $routeParams, $location, $linq, PageService, PostService) {
+  .controller('MainController', function($controller, $scope, $routeParams, $location, $linq, PageService, PostService, Notification) {
     $controller('BaseController', {
       $scope: $scope
     });
@@ -44,8 +44,11 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     $scope.posts = [];
 
     $scope.deletePost = function(id) {
-      PostService.delete(id).then(function() {
+      PostService.delete(id).success(function() {
+        Notification.success('Post deleted successfully');
         $scope.getPosts();
+      }).error(function(resp) {
+        Notification.success(resp);
       });
     };
 
@@ -56,18 +59,21 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
 
         switch (sort) {
           case 'popularity':
+            Notification.info('Sorted by Popularity');
             posts = $linq.Enumerable().From(response.data)
               .OrderByDescending(function(x) {
                 return x.votescore
               }).ToArray();
             break;
           case 'title':
+            Notification.info('Sorted by Title');
             posts = $linq.Enumerable().From(response.data)
               .OrderBy(function(x) {
                 return x.title
               }).ToArray();
             break;
           case 'created':
+            Notification.info('Sorted by Date Created');
             posts = $linq.Enumerable().From(response.data)
               .OrderByDescending(function(x) {
                 return x.created
@@ -89,6 +95,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     $scope.getPostsByTag = function(tag) {
       $scope.posts = [];
       PostService.getByTag(tag).then(function(response) {
+        Notification.info('Filtered by tag \'' + tag + '\'');
         $scope.posts = response.data;
       });
     };
@@ -117,12 +124,16 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     PageService.setTitle('About');
     PageService.setSubTitle('No really, what\'s the deal here?');
   })
-  .controller('ContactController', function($controller, $scope, PageService) {
+  .controller('ContactController', function($controller, $scope, PageService, Notification) {
     $controller('BaseController', {
       $scope: $scope
     });
     PageService.setTitle('Contact');
     PageService.setSubTitle('For the love of god, don\'t spam me!');
+
+    $scope.send = function() {
+      Notification.info('This currently does not do anything. Sorry!');
+    };
   })
   .controller('PostController', function($controller, $scope, $routeParams, $location, PageService, PostService) {
     $controller('BaseController', {
@@ -142,7 +153,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       PostService.getById(id).then(function(response) {
 
         $scope.post = response.data;
-        $scope.post['owned'] = $scope.owned($scope.post.createdby);
+        $scope.post['owned'] = $scope.owned($scope.post.createdby); //bad practice, I know
         PageService.setTitle($scope.post.title);
         PageService.setSubTitle($scope.post.subtitle);
 
@@ -156,7 +167,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     };
 
     $scope.getPost($routeParams.postid);
-  }).controller('PostEditController', function($controller, $location, $scope, $routeParams, PageService, PostService) {
+  }).controller('PostEditController', function($controller, $location, $scope, $routeParams, PageService, PostService, Notification) {
     $controller('BaseController', {
       $scope: $scope
     });
@@ -167,10 +178,17 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     $scope.submit = function() {
       $scope.post = $scope.post;
       if ($scope.post._id) {
-        PostService.save($scope.post._id, $scope.post);
+        PostService.save($scope.post._id, $scope.post).success(function(resp) {
+          Notification.success('Saved Successfully');
+        }).error(function(resp) {
+          Notification.error(resp);
+        });
       } else {
-        PostService.create($scope.post).then(function() {
+        PostService.create($scope.post).success(function() {
+          Notification.success('Created Successfully');
           $location.path('/');
+        }).error(function(resp) {
+          Notification.error(resp);
         });
       }
       PageService.setTitle($scope.post.title);

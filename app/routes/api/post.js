@@ -1,5 +1,6 @@
 // app/routes/api.js
 var isLoggedIn = require('../../middleware/isLoggedIn');
+var access = require('../../middleware/access');
 var mongoose = require("mongoose");
 mongoose.Promise = require('bluebird');
 
@@ -124,30 +125,49 @@ router.post('/save/:post_id', isLoggedIn, function(req, res) {
 
   p.modified = new Date();
 
-  post.update({
+  post.findOne({
     _id: req.params.post_id
-  }, {
-    $set: req.body
-  }, function(err, post) {
-    if (err)
-      res.send(err)
-    res.json(post);
+  }).then(function(ep) {
+    if (access.canEditPost(req, ep)) {
+      post.update({
+        _id: req.params.post_id
+      }, {
+        $set: req.body
+      }, function(err, post) {
+        if (err)
+          res.send(err)
+        res.json(post);
+      });
+    } else {
+      res.status(401).send('You do not have permission to edit this post!');
+    }
   });
 });
 router.delete('/:post_id', isLoggedIn, function(req, res) {
-  post.remove({
-    _id: req.params.post_id
-  }, function(err, todo) {
-    if (err)
-      res.send(err);
 
-    // get and return all the posts after you create another
-    post.find(function(err, todos) {
-      if (err)
-        res.send(err)
-      res.json(todos);
-    });
+  post.findOne({
+    _id: req.params.post_id
+  }).then(function(ep) {
+    if (access.canEditPost(req, ep)) {
+      post.remove({
+        _id: req.params.post_id
+      }, function(err, todo) {
+        if (err)
+          res.send(err);
+
+        // get and return all the posts after you create another
+        post.find(function(errf, todos) {
+          if (errf)
+            res.send(errf);
+
+          res.json(todos);
+        });
+      });
+    } else {
+      res.status(401).send('You do not have permission to delete this post!');
+    }
   });
+
 });
 
 module.exports = router
