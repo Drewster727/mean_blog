@@ -12,10 +12,10 @@
           </a>
           <p class="post-meta">Posted by <a href="#">{{post.createdby}}</a> on {{post.created | date:'fullDate'}}</p>
           <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default" ng-click="vote(post._id, -1)" ng-class="{'btn-selected': voteddown(post)}" ng-click="vote(p._id, -1)">
+            <button type="button" class="btn btn-default" ng-click="vote(post._id, -1)" ng-class="{'btn-selected': voted(post, -1)}" ng-click="vote(p._id, -1)">
             <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;
           </button>
-            <button type="button" class="btn btn-default" ng-click="vote(post._id, 1)" ng-class="{'btn-selected': votedup(post)}" ng-click="vote(p._id, 1)">
+            <button type="button" class="btn btn-default" ng-click="vote(post._id, 1)" ng-class="{'btn-selected': voted(post, 1)}" ng-click="vote(p._id, 1)">
             <span class=" glyphicon glyphicon-thumbs-up "></span>&nbsp;
             </button>
           </div>

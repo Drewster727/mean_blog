@@ -61,7 +61,14 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookieSto
           if (status === 200 && data.status) {
             user = true;
             $rootScope.currentUser = data.user;
-            $cookieStore.put("user", data.user);
+
+            var today = new Date();
+            var expired = new Date(today);
+            expired.setDate(today.getDate() + 1); //Set expired date to tomorrow
+            $cookieStore.put("user", data.user, {
+              expires: expired
+            });
+
             deferred.resolve();
           } else {
             user = false;

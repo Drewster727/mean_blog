@@ -14,28 +14,17 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       return false;
     };
 
-    $scope.votedup = function(post) {
+    $scope.voted = function(post, vote) {
       var cu = $rootScope.currentUser;
-      if (post && post.tags && post.tags.length > 0) {
+      if (cu && post && post.tags && post.tags.length > 0) {
         for (var i = 0; i < post.voters.length; i++) {
           var v = post.voters[i];
-          if (v.name.toLowerCase() == cu.username.toLowerCase() && v.vote == 1) {
+          if (v.name.toLowerCase() == cu.username.toLowerCase() && v.vote == vote) {
             return true;
           }
         }
       }
-    };
-
-    $scope.voteddown = function(post) {
-      var cu = $rootScope.currentUser;
-      if (post && post.tags && post.tags.length > 0) {
-        for (var i = 0; i < post.voters.length; i++) {
-          var v = post.voters[i];
-          if (v.name.toLowerCase() == cu.username.toLowerCase() && v.vote == -1) {
-            return true;
-          }
-        }
-      }
+      return false;
     };
 
     $scope.updatePost = function(post) {
