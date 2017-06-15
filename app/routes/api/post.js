@@ -82,10 +82,8 @@ router.post('/vote/:post_id/:user/:vote', isLoggedIn, function(req, res) {
   });
 });
 router.post('/', isLoggedIn, function(req, res) {
-  post.create({
-    text: req.body.text,
-    done: false
-  }, function(err, todo) {
+  console.log(req.body);
+  post.create(req.body, function(err, todo) {
     if (err)
       res.send(err);
 

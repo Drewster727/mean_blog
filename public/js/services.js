@@ -171,6 +171,11 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookieSto
       // add no cache
     },
 
+    // call to SAVE a post
+    save: function(id, postData) {
+      return $http.post('/api/post/save/' + id, postData);
+    },
+
     // call to CREATE a post
     create: function(postData) {
       return $http.post('/api/post', postData);

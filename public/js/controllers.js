@@ -157,13 +157,24 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     $scope.post = {};
     $scope.availableTags = ['test', 'fun', 'funny'];
 
+    $scope.submit = function() {
+      $scope.post = $scope.post;
+      if ($scope.post._id) {
+        PostService.save($scope.post._id, $scope.post);
+      } else {
+        PostService.create($scope.post);
+      }
+      PageService.setTitle($scope.post.title);
+      PageService.setSubTitle($scope.post.subtitle);
+    };
+
     $scope.getPost = function(id) {
       $scope.post = {};
       PostService.getById(id).then(function(response) {
 
         $scope.post = response.data;
-        //PageService.setTitle($scope.post.title);
-        //PageService.setSubTitle($scope.post.subtitle);
+        PageService.setTitle($scope.post.title);
+        PageService.setSubTitle($scope.post.subtitle);
 
       });
     };

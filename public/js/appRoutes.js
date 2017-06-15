@@ -38,7 +38,7 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
       templateUrl: 'views/about.html',
       controller: 'AboutController',
       access: {
-        restricted: false
+        restricted: true
       }
     })
 
