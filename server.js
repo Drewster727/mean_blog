@@ -39,7 +39,9 @@ app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-M
 
 // controllers
 var auth = require('./app/routes/api/auth')(passport);
-var post = require('./app/routes/api/post')
+var post = require('./app/routes/api/post');
+
+// models
 var user = require('./app/models/user');
 
 // passport
