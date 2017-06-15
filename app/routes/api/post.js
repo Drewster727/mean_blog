@@ -48,6 +48,9 @@ router.post('/vote/:post_id/:user/:vote', isLoggedIn, function(req, res) {
   }).exec();
 
   query.then(function(p) {
+    if (p.votescore)
+      p.votescore = 0;
+
     if (req.params.vote > 0) {
       p.votescore++;
       voter.vote = 1;
@@ -82,7 +85,17 @@ router.post('/vote/:post_id/:user/:vote', isLoggedIn, function(req, res) {
   });
 });
 router.post('/', isLoggedIn, function(req, res) {
-  console.log(req.body);
+  var p = req.body;
+
+  if (!p.created)
+    p.created = new Date();
+
+  if (!p.createdby)
+    p.createdby = 'drew';
+
+  if (!p.modifiedby)
+    p.modifiedby = 'drew';
+
   post.create(req.body, function(err, todo) {
     if (err)
       res.send(err);

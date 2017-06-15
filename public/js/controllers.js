@@ -54,6 +54,12 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
 
     $scope.posts = [];
 
+    $scope.deletePost = function(id) {
+      PostService.delete(id).then(function() {
+        $scope.getPosts();
+      });
+    };
+
     $scope.getPosts = function(sort) {
       $scope.posts = [];
       PostService.get().then(function(response) {
@@ -129,12 +135,18 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     PageService.setTitle('Contact');
     PageService.setSubTitle('For the love of god, don\'t spam me!');
   })
-  .controller('PostController', function($controller, $scope, $routeParams, PageService, PostService) {
+  .controller('PostController', function($controller, $scope, $routeParams, $location, PageService, PostService) {
     $controller('BaseController', {
       $scope: $scope
     });
 
     $scope.post = {};
+
+    $scope.deletePost = function(id) {
+      PostService.delete(id).then(function() {
+        $location.path('/');
+      });
+    };
 
     $scope.getPost = function(id) {
       $scope.post = {};
@@ -149,7 +161,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     };
 
     $scope.getPost($routeParams.postid);
-  }).controller('PostEditController', function($controller, $scope, $routeParams, PageService, PostService) {
+  }).controller('PostEditController', function($controller, $location, $scope, $routeParams, PageService, PostService) {
     $controller('BaseController', {
       $scope: $scope
     });
@@ -162,7 +174,9 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       if ($scope.post._id) {
         PostService.save($scope.post._id, $scope.post);
       } else {
-        PostService.create($scope.post);
+        PostService.create($scope.post).then(function() {
+          $location.path('/');
+        });
       }
       PageService.setTitle($scope.post.title);
       PageService.setSubTitle($scope.post.subtitle);
