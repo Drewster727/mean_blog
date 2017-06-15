@@ -14,6 +14,35 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       return false;
     };
 
+    $scope.votedup = function(post) {
+      var cu = $rootScope.currentUser;
+      if (post && post.tags && post.tags.length > 0) {
+        for (var i = 0; i < post.voters.length; i++) {
+          var v = post.voters[i];
+          if (v.name.toLowerCase() == cu.username.toLowerCase() && v.vote == 1) {
+            return true;
+          }
+        }
+      }
+    };
+
+    $scope.voteddown = function(post) {
+      var cu = $rootScope.currentUser;
+      if (post && post.tags && post.tags.length > 0) {
+        for (var i = 0; i < post.voters.length; i++) {
+          var v = post.voters[i];
+          if (v.name.toLowerCase() == cu.username.toLowerCase() && v.vote == -1) {
+            return true;
+          }
+        }
+      }
+    };
+
+    $scope.updatePost = function(post) {
+      post['owned'] = $scope.owned(post.createdby);
+      return post;
+    }
+
   })
   .controller('MainController', function($controller, $scope, $routeParams, $location, $linq, PageService, PostService) {
     $controller('BaseController', {
@@ -70,7 +99,14 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
     };
 
     $scope.vote = function(postId, vote) {
-      PostService.vote(postId, 'drew', vote);
+      PostService.vote(postId, 'drew', vote).then(function(r) {
+        var updated = r.data;
+        for (var i = 0; i < $scope.posts.length; i++) {
+          if ($scope.posts[i]._id == updated._id) {
+            $scope.posts[i] = $scope.updatePost(updated);
+          }
+        }
+      });
     };
 
     if ($routeParams.tag) {
