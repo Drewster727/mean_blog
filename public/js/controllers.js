@@ -160,6 +160,12 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       });
     };
 
+    $scope.vote = function(postId, vote) {
+      PostService.vote(postId, 'drew', vote).then(function(r) {
+        $scope.post = r.data;
+      });
+    };
+
     $scope.getPost($routeParams.postid);
   }).controller('PostEditController', function($controller, $location, $scope, $routeParams, PageService, PostService) {
     $controller('BaseController', {

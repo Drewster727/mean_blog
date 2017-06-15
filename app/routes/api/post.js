@@ -48,8 +48,8 @@ router.post('/vote/:post_id/:user/:vote', isLoggedIn, function(req, res) {
   }).exec();
 
   query.then(function(p) {
-    if (p.votescore)
-      p.votescore = 0;
+    if (!p.votescore)
+      p['votescore'] = 0;
 
     if (req.params.vote > 0) {
       p.votescore++;
@@ -71,6 +71,8 @@ router.post('/vote/:post_id/:user/:vote', isLoggedIn, function(req, res) {
       } else {
         p.voters.push(voter);
       }
+    } else if (!p.voters) {
+      p.voters.push(voter);
     }
 
     return p.save(); // returns a promise
