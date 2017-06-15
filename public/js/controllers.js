@@ -158,6 +158,8 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       $scope: $scope
     });
 
+    AuthService.logout();
+
     $scope.login = function() {
 
       // initial values

@@ -91,12 +91,6 @@ angular.module('meanBlog.routes', []).config(['$routeProvider', '$httpProvider',
       if (!next.access || (next.access.restricted && !AuthService.isLoggedIn())) {
         $location.path('/login');
       }
-      // AuthService.getUserStatus()
-      //   .then(function() {
-      //     if (next.access.restricted && !AuthService.isLoggedIn()) {
-      //       $location.path('/login');
-      //       $route.reload();
-      //     }
-      //   });
+      AuthService.getUserStatus();
     });
 });

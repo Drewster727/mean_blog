@@ -63,7 +63,8 @@ module.exports = function(passport) {
       });
     }
     res.status(200).json({
-      status: true
+      status: true,
+      user: req.user
     });
   });
 

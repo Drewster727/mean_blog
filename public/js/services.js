@@ -1,7 +1,7 @@
 var app = angular.module('meanBlog.services', []);
 
-app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookies',
-  function($rootScope, $q, $timeout, $http, $cookies) {
+app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookieStore',
+  function($rootScope, $q, $timeout, $http, $cookieStore) {
 
     // create user variable
     var user = null;
@@ -16,6 +16,11 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookies',
     });
 
     function isLoggedIn() {
+      var c = $cookieStore.get('user');
+      if (c) {
+        user = true;
+      }
+
       if (user) {
         return true;
       } else {
@@ -28,8 +33,10 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookies',
         // handle success
         .success(function(data) {
           if (data.status) {
+            $rootScope.currentUser = data.user;
             user = true;
           } else {
+            $rootScope.currentUser = null;
             user = false;
           }
         })
@@ -54,11 +61,12 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookies',
           if (status === 200 && data.status) {
             user = true;
             $rootScope.currentUser = data.user;
-            //$cookies.put("user", "Maff");
+            $cookieStore.put("user", data.user);
             deferred.resolve();
           } else {
             user = false;
             $rootScope.currentUser = null;
+            $cookieStore.remove("user");
             deferred.reject();
           }
         })
@@ -84,12 +92,14 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookies',
         .success(function(data) {
           user = false;
           $rootScope.currentUser = null;
+          $cookieStore.remove("user");
           deferred.resolve();
         })
         // handle error
         .error(function(data) {
           user = false;
           $rootScope.currentUser = null;
+          $cookieStore.remove("user");
           deferred.reject();
         });
 
