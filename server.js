@@ -60,7 +60,7 @@ app.use('/', auth);
 app.use('/api/post', post);
 app.get('*', function(req, res) {
   //res.render('/');
-  res.sendfile(__dirname + '/public/index.html')
+  res.sendFile(__dirname + '/public/index.html')
 });
 
 // listen (start app with node server.js) ======================================

@@ -8,7 +8,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
 
     $scope.owned = function(user) {
       var cu = $rootScope.currentUser;
-      if (cu && cu.username.toLowerCase() == user.toLowerCase())
+      if (cu && user && cu.username.toLowerCase() == user.toLowerCase())
         return true;
 
       return false;
@@ -51,6 +51,11 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
             break;
           default:
             posts = response.data;
+        }
+
+        for (var i = 0; i < posts.length; i++) {
+          var p = posts[i];
+          p['owned'] = $scope.owned(p.createdby);
         }
 
         $scope.posts = posts;
@@ -100,6 +105,7 @@ app.controller('BaseController', function($rootScope, $scope, $routeParams, $loc
       PostService.getById(id).then(function(response) {
 
         $scope.post = response.data;
+        $scope.post['owned'] = $scope.owned($scope.post.createdby);
         PageService.setTitle($scope.post.title);
         PageService.setSubTitle($scope.post.subtitle);
 

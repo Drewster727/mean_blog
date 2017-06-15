@@ -1,7 +1,7 @@
 var app = angular.module('meanBlog.services', []);
 
-app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http',
-  function($rootScope, $q, $timeout, $http) {
+app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http', '$cookies',
+  function($rootScope, $q, $timeout, $http, $cookies) {
 
     // create user variable
     var user = null;
@@ -54,6 +54,7 @@ app.factory('AuthService', ['$rootScope', '$q', '$timeout', '$http',
           if (status === 200 && data.status) {
             user = true;
             $rootScope.currentUser = data.user;
+            //$cookies.put("user", "Maff");
             deferred.resolve();
           } else {
             user = false;

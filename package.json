@@ -8,7 +8,6 @@
     "browser-sync": "browser-sync start --proxy localhost:8888 --files 'public/**/*.*'"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "client-sessions": "^0.8.0",

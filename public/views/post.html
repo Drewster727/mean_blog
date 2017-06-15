@@ -19,7 +19,7 @@
           <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;
           </button>
           </div>
-          <div ng-if="owned(post.createdby)" class="btn-group" role="group" aria-label="...">
+          <div ng-if="post.owned" class="btn-group" role="group" aria-label="...">
             <button type="button" class="btn btn-default" ng-click="redirect('/postedit/' + post._id)">Edit</button>
             </button>
           </div>
